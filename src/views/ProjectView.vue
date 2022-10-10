@@ -3,18 +3,15 @@
     <div class="conatiner-home">
       <div class="container-title">
         <h1>
-          SOBRE
+          Projetos
         </h1>
         <h3>
-          um pouco mais sobre mim
+          Aqui você vai encontrar os projetos que eu tive a honra de participar 
         </h3>
       </div>
       <div>
         <span class="material-symbols-outlined icon-arrow">expand_more</span>
       </div>
-    </div>
-    <div class="container-presentation" data-anime="right">
-      <p></p>
     </div>
   </div>
 </template>
@@ -23,16 +20,83 @@
   import NavBar from '@/components/NavBar.vue';
   import HelloWorld from '../components/HelloWorld'
 
-  AOS.init();
-
   export default {
-    name: 'About',
+    name: 'Project',
 
     components: {
       HelloWorld,
       NavBar
-    }
+    },
   }
+
+  const debounce = function(func, wait, immediate) {
+    let timeout;
+    return function(...args) {
+      const context = this;
+      const later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      const callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  };
+
+  const target = document.querySelectorAll('[data-anime]');
+  const animationClass = 'animate';
+
+  const nivel = document.querySelectorAll('[data-nivel]');
+  const animaNivel = 'nive';
+
+  var sum = 0;
+
+
+
+  function animaScroll(){
+      const windowTop = window.pageYOffset +((window.innerHeight*3)/4);
+      target.forEach(( function(element) {
+          if((windowTop) > element.offsetTop){
+              element.classList.add(animationClass); 
+          }
+          else{
+              element.classList.remove(animationClass); 
+          }
+
+      }))
+  }
+
+  function animaNivell(){
+      const windowTop = window.pageYOffset + ((window.innerHeight*3)/4);
+      nivel.forEach(( function(element2) {
+          sum++;
+          
+          console.log(sum)
+          var teste = 'nivel'+sum;
+          if((windowTop) > element2.offsetTop){
+              element2.classList.add(teste);
+
+          }
+          else{
+              element2.classList.remove(teste);
+          }
+        
+      }))
+
+      sum = 0;
+
+  }
+
+  animaNivell();
+  animaScroll();
+
+  if(target.length){
+      window.addEventListener ('scroll', debounce(function(){
+          animaScroll();
+      }, 20) )
+  }
+
 </script>
 
 <style>
@@ -110,13 +174,5 @@
     100%{
         font-size: 2rem;
     }
-}
-
-.container-presentation {
-  height: 300px;
-  width: 90%;
-  border: 2px solid black;
-  background-color: #81765e;  
-
 }
 </style>
